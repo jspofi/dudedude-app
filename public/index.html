@@ -31,13 +31,12 @@
     .muted{color:#94A3B8}
     .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#34D399;margin-right:6px;animation:pulse 2s ease infinite;box-shadow:0 0 8px #34D399}
     .dot-sm{width:6px;height:6px;margin-right:4px}
-
     .btn-main{width:100%;padding:14px 20px;border-radius:14px;background:linear-gradient(135deg,#FF6B6B,#A855F7);color:#fff;font-size:16px;font-weight:700;font-family:'Fredoka',sans-serif;box-shadow:0 4px 24px rgba(255,107,107,.3)}
+    .btn-next-big{width:100%;padding:12px;border-radius:12px;background:linear-gradient(135deg,#FF6B6B,#A855F7);color:#fff;font-size:14px;font-weight:700;font-family:'Fredoka',sans-serif;margin-top:6px}
     .inp{width:100%;padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.04);color:#fff;font-size:15px;font-family:'Nunito',sans-serif}
     .badge{display:inline-flex;align-items:center;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.15);border-radius:20px;padding:5px 14px;gap:2px}
     .badge span{color:#34D399;font-weight:600;font-size:13px}
 
-    /* Chat layout */
     .chat-wrap{height:100dvh;display:flex;flex-direction:column;background:#0a0a1a}
     .c-header{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#111125;border-bottom:1px solid rgba(255,255,255,.05);flex-shrink:0}
     .c-video{position:relative;width:100%;background:#000;flex-shrink:0;aspect-ratio:4/3;max-height:40dvh}
@@ -48,14 +47,13 @@
     .c-msgs{flex:1;overflow-y:auto;padding:10px 12px;display:flex;flex-direction:column;gap:6px}
     .c-inputbar{display:flex;gap:6px;padding:10px 12px;background:#111125;border-top:1px solid rgba(255,255,255,.05);flex-shrink:0}
     .c-sendbtn{padding:10px 18px;border-radius:12px;background:linear-gradient(135deg,#FF6B6B,#A855F7);color:#fff;font-size:13px;font-weight:700;font-family:'Fredoka',sans-serif}
-
     .msg-sys{text-align:center;font-size:12px;color:#94A3B8;padding:6px 12px;background:rgba(255,255,255,.02);border-radius:12px}
     .msg-warn{color:#FFE66D!important;background:rgba(255,230,109,.05)!important}
     .msg-bub{max-width:78%;padding:8px 14px;border-radius:16px;font-size:13px;line-height:1.5;animation:fadeUp .25s ease}
     .msg-you{align-self:flex-end;background:linear-gradient(135deg,#FF6B6B,#A855F7);border-bottom-right-radius:4px}
     .msg-them{align-self:flex-start;background:rgba(255,255,255,.06);border-bottom-left-radius:4px}
     .msg-from{font-size:10px;font-weight:700;opacity:.55;margin-bottom:1px}
-    .retry-btn{display:inline-block;padding:6px 16px;border-radius:8px;background:rgba(168,85,247,.2);color:#A855F7;font-size:12px;font-weight:700;cursor:pointer;margin-top:4px;border:none}
+    .retry-btn{display:inline-block;padding:6px 16px;border-radius:8px;background:rgba(168,85,247,.2);color:#A855F7;font-size:12px;font-weight:700;cursor:pointer;border:none}
     .cam-status{position:absolute;top:8px;left:8px;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;background:rgba(0,0,0,.7)}
     .cam-ok{color:#34D399}.cam-fail{color:#EF4444}.cam-wait{color:#FFE66D}
 
@@ -68,7 +66,7 @@
 </head>
 <body>
 
-<!-- ====== AGE GATE ====== -->
+<!-- AGE GATE -->
 <div id="s-age" class="screen">
   <div class="card">
     <img src="/logo.png" class="logo" alt="DudeDude">
@@ -82,13 +80,11 @@
   </div>
 </div>
 
-<!-- ====== LOBBY ====== -->
+<!-- LOBBY -->
 <div id="s-lobby" class="screen hidden">
   <div class="card">
     <img src="/logo.png" class="logo-sm" alt="DudeDude">
     <div class="badge" style="margin-top:12px"><span class="dot dot-sm"></span><span id="lobby-count">0 dudes online</span></div>
-
-    <!-- Camera preview -->
     <div id="camPreview" style="margin-top:16px;border-radius:14px;overflow:hidden;background:#000;aspect-ratio:4/3;max-height:180px;position:relative">
       <video id="previewVid" autoplay playsinline muted style="width:100%;height:100%;object-fit:cover;transform:scaleX(-1)"></video>
       <div id="previewPH" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#111125">
@@ -96,7 +92,6 @@
         <p class="muted" style="font-size:11px;margin-top:4px" id="camStatusText">Requesting camera...</p>
       </div>
     </div>
-
     <div style="width:100%;margin-top:16px;text-align:left">
       <label style="display:block;color:#94A3B8;font-size:12px;margin-bottom:6px;font-weight:600">NICKNAME <span style="opacity:.5">(optional)</span></label>
       <input type="text" id="inp-name" class="inp" placeholder="Enter a name or stay anonymous..." maxlength="20">
@@ -110,7 +105,7 @@
   </div>
 </div>
 
-<!-- ====== SEARCHING ====== -->
+<!-- SEARCHING -->
 <div id="s-search" class="screen hidden">
   <div style="text-align:center">
     <div style="width:96px;height:96px;border-radius:50%;border:3px solid transparent;border-top-color:#FF6B6B;border-right-color:#A855F7;animation:spin 1s linear infinite;margin:0 auto 22px;display:flex;align-items:center;justify-content:center">
@@ -118,12 +113,12 @@
     </div>
     <h2 style="font-size:18px;font-family:'Fredoka',sans-serif"><span class="gradient-text" id="search-text">Looking for a dude...</span></h2>
     <p class="muted" style="font-size:13px;margin-top:8px">Hang tight ✨</p>
+    <button style="margin-top:20px;padding:8px 20px;border-radius:10px;background:rgba(239,68,68,.1);color:#EF4444;font-size:12px;font-weight:600" onclick="doStop()">✕ Cancel</button>
   </div>
 </div>
 
-<!-- ====== CHAT ROOM ====== -->
+<!-- CHAT -->
 <div id="s-chat" class="chat-wrap hidden">
-  <!-- Header -->
   <div class="c-header">
     <div style="display:flex;align-items:center;gap:8px">
       <img src="/logo.png" class="logo-xs" alt="">
@@ -137,8 +132,6 @@
       <button style="padding:7px 16px;border-radius:10px;background:linear-gradient(135deg,#FF6B6B,#A855F7);color:#fff;font-size:12px;font-weight:700;font-family:'Fredoka',sans-serif" onclick="doNext()">Next ⏭️</button>
     </div>
   </div>
-
-  <!-- Video -->
   <div class="c-video" id="videoArea">
     <video id="remoteVid" autoplay playsinline style="width:100%;height:100%;object-fit:cover;background:#000"></video>
     <div id="remotePH" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#000">
@@ -152,34 +145,24 @@
       <div id="selfPH" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#111125"><span style="font-size:24px">📷</span><p class="muted" style="font-size:9px;margin-top:2px">You</p></div>
     </div>
   </div>
-
-  <!-- Mode Toggle -->
   <div class="c-modebar">
     <button class="c-modebtn on" id="modeVid" onclick="setMode('video')">📹 Video</button>
     <button class="c-modebtn" id="modeTxt" onclick="setMode('text')">💬 Text Only</button>
   </div>
-
-  <!-- Messages -->
   <div class="c-msgs" id="msgs"></div>
-
-  <!-- Input -->
   <div class="c-inputbar">
     <input type="text" id="chatInp" class="inp" style="flex:1" placeholder="Type a message..." maxlength="500" onkeydown="if(event.key==='Enter')sendMsg()">
     <button class="c-sendbtn" onclick="sendMsg()">Send</button>
   </div>
-
-  <!-- Footer -->
   <div style="text-align:center;padding:6px 0 max(8px,env(safe-area-inset-bottom));background:#111125">
     <button style="background:transparent;border:none;color:#64748B;font-size:11px" onclick="doReport()">🚩 Report</button>
   </div>
 </div>
 
-
-<!-- ====== SCRIPTS ====== -->
 <script src="/socket.io/socket.io.js"></script>
 <script>
 // ============================================================
-// GLOBALS
+// STATE
 // ============================================================
 const socket = io({
   transports: ["websocket", "polling"],
@@ -189,33 +172,29 @@ const socket = io({
   reconnectionDelayMax: 5000,
 });
 
-let localStream = null;       // Camera+mic stream — acquired ONCE, reused
+let localStream = null;
 let hasCamera = false;
 let hasMic = false;
-let pc = null;                // RTCPeerConnection
-let remoteStream = null;      // Keep reference to remote stream
+let pc = null;
+let remoteStream = null;
 let partnerName = "";
 let myName = "Anonymous";
 let curMode = "video";
 let isInitiator = false;
 let iceRetryCount = 0;
 let iceFailTimer = null;
+let isMatched = false;  // Track if we're currently in a match
 const MAX_ICE_RETRIES = 4;
 
-// ============================================================
-// TURN + STUN SERVERS
-// ============================================================
 const ICE_CONFIG = {
   iceServers: [
     { urls: "stun:stun.l.google.com:19302" },
     { urls: "stun:stun1.l.google.com:19302" },
     { urls: "stun:stun2.l.google.com:19302" },
     { urls: "stun:stun3.l.google.com:19302" },
-    // Open Relay TURN — free, works globally including India
     { urls: "turn:openrelay.metered.ca:80", username: "openrelayproject", credential: "openrelayproject" },
     { urls: "turn:openrelay.metered.ca:443", username: "openrelayproject", credential: "openrelayproject" },
     { urls: "turns:openrelay.metered.ca:443?transport=tcp", username: "openrelayproject", credential: "openrelayproject" },
-    // Metered TURN backup
     { urls: "turn:standard.relay.metered.ca:80", username: "e8dd65b92f003a9b7f1cb174", credential: "3zOJqoYb2gXIi/Ak" },
     { urls: "turn:standard.relay.metered.ca:443", username: "e8dd65b92f003a9b7f1cb174", credential: "3zOJqoYb2gXIi/Ak" },
     { urls: "turns:standard.relay.metered.ca:443?transport=tcp", username: "e8dd65b92f003a9b7f1cb174", credential: "3zOJqoYb2gXIi/Ak" },
@@ -227,14 +206,13 @@ const ICE_CONFIG = {
 };
 
 // ============================================================
-// SCREEN NAVIGATION
+// SCREENS
 // ============================================================
 function show(id) {
-  ['s-age', 's-lobby', 's-search', 's-chat'].forEach(s => document.getElementById(s).classList.add('hidden'));
+  ['s-age','s-lobby','s-search','s-chat'].forEach(s => document.getElementById(s).classList.add('hidden'));
   document.getElementById(id).classList.remove('hidden');
 }
 
-// Age gate → request camera ONCE → show lobby
 async function enterApp() {
   show('s-lobby');
   await acquireMedia();
@@ -242,6 +220,7 @@ async function enterApp() {
 
 function startSearch() {
   myName = document.getElementById('inp-name').value.trim() || "Anonymous";
+  isMatched = false;
   show('s-search');
   searchAnim();
   socket.emit('startSearch', { name: myName });
@@ -249,6 +228,7 @@ function startSearch() {
 
 function doNext() {
   closePeer();
+  isMatched = false;
   iceRetryCount = 0;
   show('s-search');
   searchAnim();
@@ -257,10 +237,30 @@ function doNext() {
 
 function doStop() {
   closePeer();
+  isMatched = false;
   iceRetryCount = 0;
   socket.emit('stop');
   show('s-lobby');
-  showLocalPreview(); // Show camera preview in lobby again
+  showLocalPreview();
+}
+
+// Called when partner leaves — user can click "Find Next" or "Stop"
+function showPartnerLeft() {
+  closePeer();
+  isMatched = false;
+  addMsg('warn', '⚡ ' + esc(partnerName) + ' left the chat.');
+
+  // Show "Find Next Dude" button IN the chat
+  const box = document.getElementById('msgs');
+  const el = document.createElement('div');
+  el.className = 'msg-sys';
+  el.innerHTML = '<button class="btn-next-big" onclick="doNext()">Find Next Dude ⏭️</button>';
+  box.appendChild(el);
+  box.scrollTop = box.scrollHeight;
+
+  // Disable input
+  document.getElementById('chatInp').disabled = true;
+  document.getElementById('chatInp').placeholder = 'Partner left...';
 }
 
 function setMode(m) {
@@ -271,77 +271,43 @@ function setMode(m) {
 }
 
 // ============================================================
-// CAMERA + MIC — ACQUIRE ONCE, REUSE FOREVER
+// CAMERA + MIC — ACQUIRE ONCE
 // ============================================================
 async function acquireMedia() {
-  // Already have a stream? Don't ask again
-  if (localStream && localStream.active) {
-    showLocalPreview();
-    return;
-  }
-
-  const statusEl = document.getElementById('camStatusText');
-  statusEl.textContent = 'Requesting camera & mic...';
+  if (localStream && localStream.active) { showLocalPreview(); return; }
+  const st = document.getElementById('camStatusText');
+  st.textContent = 'Requesting camera & mic...';
 
   // Try video + audio
   try {
     localStream = await navigator.mediaDevices.getUserMedia({
-      video: {
-        facingMode: "user",
-        width: { ideal: 640, max: 1280 },
-        height: { ideal: 480, max: 720 },
-        frameRate: { ideal: 24, max: 30 },
-      },
-      audio: {
-        echoCancellation: true,
-        noiseSuppression: true,
-        autoGainControl: true,
-        sampleRate: 44100,
-      }
+      video: { facingMode:"user", width:{ideal:640,max:1280}, height:{ideal:480,max:720}, frameRate:{ideal:24,max:30} },
+      audio: { echoCancellation:true, noiseSuppression:true, autoGainControl:true, sampleRate:44100 },
     });
-    hasCamera = true;
-    hasMic = true;
-    statusEl.textContent = '✅ Camera & mic ready';
-    showLocalPreview();
-    return;
-  } catch (e) {
-    console.log('Full media failed:', e.name);
-  }
+    hasCamera = true; hasMic = true;
+    st.textContent = '✅ Camera & mic ready';
+    showLocalPreview(); return;
+  } catch(e) { console.log('Full media fail:', e.name); }
 
-  // Try video only
+  // Video only
   try {
-    localStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } },
-      audio: false,
-    });
-    hasCamera = true;
-    hasMic = false;
-    statusEl.textContent = '📷 Camera ready (no mic)';
-    showLocalPreview();
-    return;
-  } catch (e) {
-    console.log('Video only failed:', e.name);
-  }
+    localStream = await navigator.mediaDevices.getUserMedia({ video:{facingMode:"user",width:{ideal:640},height:{ideal:480}}, audio:false });
+    hasCamera = true; hasMic = false;
+    st.textContent = '📷 Camera ready (no mic)';
+    showLocalPreview(); return;
+  } catch(e) { console.log('Video fail:', e.name); }
 
-  // Try audio only
+  // Audio only
   try {
-    localStream = await navigator.mediaDevices.getUserMedia({
-      video: false,
-      audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
-    });
-    hasCamera = false;
-    hasMic = true;
-    statusEl.textContent = '🎤 Mic ready (no camera)';
+    localStream = await navigator.mediaDevices.getUserMedia({ video:false, audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true} });
+    hasCamera = false; hasMic = true;
+    st.textContent = '🎤 Mic ready (no camera)';
     return;
-  } catch (e) {
-    console.log('Audio only failed:', e.name);
-  }
+  } catch(e) { console.log('Audio fail:', e.name); }
 
-  // Nothing available — text only
-  hasCamera = false;
-  hasMic = false;
-  localStream = null;
-  statusEl.textContent = '💬 Text only mode (no camera/mic)';
+  // Nothing
+  hasCamera = false; hasMic = false; localStream = null;
+  st.textContent = '💬 Text only mode';
 }
 
 function showLocalPreview() {
@@ -358,52 +324,49 @@ function showLocalPreview() {
 // ============================================================
 let searchTmr;
 function searchAnim() {
-  const t = ["Looking for a dude", "Scanning the globe", "Finding your match", "Almost there"];
-  let i = 0, d = 0;
+  const t = ["Looking for a dude","Scanning the globe","Finding your match","Almost there"];
+  let i=0,d=0;
   clearInterval(searchTmr);
-  searchTmr = setInterval(() => { d = (d + 1) % 4; if (!d) i = (i + 1) % t.length; document.getElementById('search-text').textContent = t[i] + ".".repeat(d); }, 400);
+  searchTmr = setInterval(() => { d=(d+1)%4; if(!d) i=(i+1)%t.length; document.getElementById('search-text').textContent=t[i]+".".repeat(d); }, 400);
 }
 
 // ============================================================
-// CHAT MESSAGES
+// MESSAGES
 // ============================================================
 function addMsg(type, html, name) {
   const box = document.getElementById('msgs');
   const el = document.createElement('div');
-  if (type === 'sys') { el.className = 'msg-sys'; el.innerHTML = html; }
-  else if (type === 'warn') { el.className = 'msg-sys msg-warn'; el.innerHTML = html; }
+  if (type==='sys') { el.className='msg-sys'; el.innerHTML=html; }
+  else if (type==='warn') { el.className='msg-sys msg-warn'; el.innerHTML=html; }
   else {
-    el.className = 'msg-bub ' + (type === 'you' ? 'msg-you' : 'msg-them');
-    el.innerHTML = '<div class="msg-from">' + (type === 'you' ? 'You' : esc(name)) + '</div>' + esc(html);
+    el.className = 'msg-bub '+(type==='you'?'msg-you':'msg-them');
+    el.innerHTML = '<div class="msg-from">'+(type==='you'?'You':esc(name))+'</div>'+esc(html);
   }
-  box.appendChild(el);
-  box.scrollTop = box.scrollHeight;
+  box.appendChild(el); box.scrollTop = box.scrollHeight;
 }
-function clearMsgs() { document.getElementById('msgs').innerHTML = ''; }
-function esc(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+function clearMsgs() { document.getElementById('msgs').innerHTML=''; }
+function esc(t) { const d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
 
 function sendMsg() {
   const inp = document.getElementById('chatInp');
   const txt = inp.value.trim();
-  if (!txt) return;
+  if (!txt || !isMatched) return;
   addMsg('you', txt);
-  socket.emit('chatMessage', { text: txt });
-  inp.value = '';
-  inp.focus();
+  socket.emit('chatMessage', { text:txt });
+  inp.value = ''; inp.focus();
 }
 
 function doReport() {
-  socket.emit('report', { reason: 'user_report' });
-  alert('User reported. Thanks for keeping DudeDude safe! 🦦');
+  socket.emit('report', { reason:'user_report' });
+  alert('User reported. Thanks! 🦦');
 }
 
 // ============================================================
-// WEBRTC — PRODUCTION QUALITY
+// WEBRTC
 // ============================================================
 function setConnStatus(text, cls) {
   const el = document.getElementById('connStatus');
-  el.textContent = text;
-  el.className = 'cam-status ' + cls;
+  el.textContent = text; el.className = 'cam-status ' + cls;
 }
 
 async function makePeer(initiator) {
@@ -415,198 +378,126 @@ async function makePeer(initiator) {
 
   pc = new RTCPeerConnection(ICE_CONFIG);
 
-  // ---- ADD LOCAL TRACKS ----
-  // Always add tracks so the other side gets media
+  // Add local tracks
   if (localStream) {
-    localStream.getTracks().forEach(track => {
-      pc.addTrack(track, localStream);
-    });
+    localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
   } else {
-    // No local media — add empty transceivers so we can still receive
-    pc.addTransceiver('video', { direction: 'recvonly' });
-    pc.addTransceiver('audio', { direction: 'recvonly' });
+    pc.addTransceiver('video', { direction:'recvonly' });
+    pc.addTransceiver('audio', { direction:'recvonly' });
   }
 
-  // ---- RECEIVE REMOTE TRACKS ----
+  // Remote stream
   remoteStream = new MediaStream();
-  const remVid = document.getElementById('remoteVid');
-  remVid.srcObject = remoteStream;
+  document.getElementById('remoteVid').srcObject = remoteStream;
 
   pc.ontrack = (event) => {
     console.log('[TRACK]', event.track.kind, event.track.readyState);
-    // Add each track to our remote stream
     remoteStream.addTrack(event.track);
-
-    // Show video when we get a video track
     if (event.track.kind === 'video') {
       document.getElementById('remotePH').style.display = 'none';
       setConnStatus('🟢 Connected', 'cam-ok');
     }
-
-    // Handle track ending
-    event.track.onended = () => {
-      console.log('[TRACK ENDED]', event.track.kind);
-    };
-
-    // Handle track unmuting (important for mobile)
     event.track.onunmute = () => {
-      console.log('[TRACK UNMUTED]', event.track.kind);
-      if (event.track.kind === 'video') {
-        document.getElementById('remotePH').style.display = 'none';
-      }
-      // Force play on mobile
-      forcePlay(remVid);
+      if (event.track.kind === 'video') document.getElementById('remotePH').style.display = 'none';
+      forcePlay(document.getElementById('remoteVid'));
     };
   };
 
-  // ---- ICE CANDIDATES ----
   pc.onicecandidate = (e) => {
-    if (e.candidate) {
-      socket.emit('signal', { type: 'candidate', candidate: e.candidate });
-    }
+    if (e.candidate) socket.emit('signal', { type:'candidate', candidate:e.candidate });
   };
 
-  // Log gathering state
-  pc.onicegatheringstatechange = () => {
-    console.log('[ICE GATHER]', pc.iceGatheringState);
-  };
-
-  // ---- CONNECTION STATE MONITORING ----
   pc.oniceconnectionstatechange = () => {
     if (!pc) return;
-    const state = pc.iceConnectionState;
-    console.log('[ICE STATE]', state);
-
-    switch (state) {
-      case 'checking':
-        setConnStatus('⏳ Connecting...', 'cam-wait');
-        break;
-      case 'connected':
-      case 'completed':
-        setConnStatus('🟢 Connected', 'cam-ok');
-        iceRetryCount = 0;
-        clearTimeout(iceFailTimer);
-        // Force play remote video (needed on mobile Safari/Chrome)
+    const s = pc.iceConnectionState;
+    console.log('[ICE]', s);
+    switch(s) {
+      case 'checking': setConnStatus('⏳ Connecting...','cam-wait'); break;
+      case 'connected': case 'completed':
+        setConnStatus('🟢 Connected','cam-ok');
+        iceRetryCount = 0; clearTimeout(iceFailTimer);
         forcePlay(document.getElementById('remoteVid'));
         break;
       case 'disconnected':
-        setConnStatus('⚡ Reconnecting...', 'cam-wait');
-        // Wait 6 seconds — disconnected can recover on its own
+        setConnStatus('⚡ Reconnecting...','cam-wait');
         clearTimeout(iceFailTimer);
-        iceFailTimer = setTimeout(() => {
-          if (pc && pc.iceConnectionState === 'disconnected') {
-            handleIceFailure();
-          }
-        }, 6000);
+        iceFailTimer = setTimeout(() => { if(pc && pc.iceConnectionState==='disconnected') handleIceFailure(); }, 6000);
         break;
-      case 'failed':
-        clearTimeout(iceFailTimer);
-        handleIceFailure();
-        break;
-      case 'closed':
-        break;
+      case 'failed': clearTimeout(iceFailTimer); handleIceFailure(); break;
     }
   };
 
-  // ---- CREATE OFFER (only initiator) ----
   if (initiator) {
     try {
-      const offer = await pc.createOffer({
-        offerToReceiveAudio: true,
-        offerToReceiveVideo: true,
-      });
+      const offer = await pc.createOffer({ offerToReceiveAudio:true, offerToReceiveVideo:true });
       await pc.setLocalDescription(offer);
-      socket.emit('signal', { type: 'offer', sdp: pc.localDescription });
-    } catch (e) {
+      socket.emit('signal', { type:'offer', sdp:pc.localDescription });
+    } catch(e) {
       console.error('Offer error:', e);
-      addMsg('warn', '⚠️ Could not start video. Text chat still works!');
+      addMsg('warn', '⚠️ Could not start video. Text chat works!');
     }
   }
 }
 
-// Force play — mobile browsers need explicit play after user gesture
-function forcePlay(videoEl) {
-  if (!videoEl) return;
-  const playPromise = videoEl.play();
-  if (playPromise) {
-    playPromise.catch(e => {
-      console.log('Autoplay blocked, adding click handler');
-      // Add a one-time click handler on the video area
-      document.getElementById('videoArea').addEventListener('click', function handler() {
-        videoEl.play();
-        document.getElementById('videoArea').removeEventListener('click', handler);
-      }, { once: true });
-    });
-  }
+function forcePlay(v) {
+  if (!v) return;
+  const p = v.play();
+  if (p) p.catch(() => {
+    document.getElementById('videoArea').addEventListener('click', function h() {
+      v.play(); document.getElementById('videoArea').removeEventListener('click', h);
+    }, { once:true });
+  });
 }
 
-// ---- HANDLE ICE FAILURE (NO AUTO-SKIP!) ----
 async function handleIceFailure() {
-  if (!pc) return;
-
+  if (!pc || !isMatched) return;
   if (iceRetryCount < MAX_ICE_RETRIES) {
     iceRetryCount++;
-    setConnStatus(`🔄 Retry ${iceRetryCount}/${MAX_ICE_RETRIES}`, 'cam-wait');
-    addMsg('warn', `⚡ Video hiccup. Retrying... (${iceRetryCount}/${MAX_ICE_RETRIES})`);
-
+    setConnStatus(`🔄 Retry ${iceRetryCount}/${MAX_ICE_RETRIES}`,'cam-wait');
+    addMsg('warn', `⚡ Video hiccup. Retrying (${iceRetryCount}/${MAX_ICE_RETRIES})...`);
     try {
-      // ICE restart — renegotiate connection without losing the match
       if (isInitiator) {
-        const offer = await pc.createOffer({ iceRestart: true });
+        const offer = await pc.createOffer({ iceRestart:true });
         await pc.setLocalDescription(offer);
-        socket.emit('signal', { type: 'offer', sdp: pc.localDescription });
-      } else {
-        socket.emit('iceRestart');
-      }
-    } catch (e) {
-      console.error('ICE restart error:', e);
-    }
+        socket.emit('signal', { type:'offer', sdp:pc.localDescription });
+      } else { socket.emit('iceRestart'); }
+    } catch(e) { console.error('ICE restart err:', e); }
   } else {
-    // All retries exhausted — stay with partner, offer text + manual retry
-    setConnStatus('❌ Video failed', 'cam-fail');
-    addMsg('warn', '⚠️ Video couldn\'t connect. You can still text chat! 💬');
+    setConnStatus('❌ Video failed','cam-fail');
+    addMsg('warn', '⚠️ Video couldn\'t connect. Text chat still works! 💬');
     const box = document.getElementById('msgs');
-    const btn = document.createElement('div');
-    btn.className = 'msg-sys';
-    btn.innerHTML = '<button class="retry-btn" onclick="retryVideo()">🔄 Try Video Again</button>';
-    box.appendChild(btn);
-    box.scrollTop = box.scrollHeight;
+    const el = document.createElement('div'); el.className='msg-sys';
+    el.innerHTML = '<button class="retry-btn" onclick="retryVideo()">🔄 Try Video Again</button>';
+    box.appendChild(el); box.scrollTop = box.scrollHeight;
   }
 }
 
-// Manual retry
 async function retryVideo() {
   if (!pc) return;
   iceRetryCount = 0;
-  setConnStatus('🔄 Retrying...', 'cam-wait');
-  addMsg('sys', '🔄 Retrying video...');
+  setConnStatus('🔄 Retrying...','cam-wait');
+  addMsg('sys','🔄 Retrying video...');
   try {
     if (isInitiator) {
-      const offer = await pc.createOffer({ iceRestart: true });
+      const offer = await pc.createOffer({ iceRestart:true });
       await pc.setLocalDescription(offer);
-      socket.emit('signal', { type: 'offer', sdp: pc.localDescription });
-    } else {
-      socket.emit('iceRestart');
-    }
-  } catch (e) {
-    addMsg('warn', '⚠️ Retry failed. Text chat works!');
-    setConnStatus('❌ Video failed', 'cam-fail');
-  }
+      socket.emit('signal', { type:'offer', sdp:pc.localDescription });
+    } else { socket.emit('iceRestart'); }
+  } catch(e) { addMsg('warn','⚠️ Retry failed. Text chat works!'); setConnStatus('❌ Video failed','cam-fail'); }
 }
 
 function closePeer() {
   clearTimeout(iceFailTimer);
   if (pc) { pc.close(); pc = null; }
   remoteStream = null;
-  const remVid = document.getElementById('remoteVid');
-  remVid.srcObject = null;
+  document.getElementById('remoteVid').srcObject = null;
   document.getElementById('remotePH').style.display = 'flex';
   document.getElementById('remoteLbl').textContent = 'Connecting video...';
-  setConnStatus('', '');
+  setConnStatus('','');
 }
 
 // ============================================================
-// SOCKET.IO EVENTS
+// SOCKET EVENTS
 // ============================================================
 socket.on('onlineCount', n => {
   document.getElementById('lobby-count').textContent = n + ' dudes online';
@@ -616,115 +507,81 @@ socket.on('onlineCount', n => {
 socket.on('matched', async (data) => {
   clearInterval(searchTmr);
   partnerName = data.partnerName;
+  isMatched = true;
   iceRetryCount = 0;
 
-  show('s-chat');
-  setMode('video');
-  clearMsgs();
-
-  // Set partner info
+  show('s-chat'); setMode('video'); clearMsgs();
   document.getElementById('partnerLbl').textContent = partnerName;
   document.getElementById('remoteLbl').textContent = 'Connecting video...';
+  document.getElementById('chatInp').disabled = false;
+  document.getElementById('chatInp').placeholder = 'Type a message...';
 
-  // Show local video in chat
   if (localStream && hasCamera) {
     document.getElementById('localVid').srcObject = localStream;
     document.getElementById('selfPH').style.display = 'none';
   }
 
-  addMsg('sys', '🎉 Connected with <b>' + esc(partnerName) + '</b>! Say hi 👋');
+  addMsg('sys', '🎉 Connected with <b>'+esc(partnerName)+'</b>! Say hi 👋');
+  if (!hasCamera && !hasMic) addMsg('sys','💬 Text-only mode');
+  else if (!hasCamera) addMsg('sys','🎤 Audio only — no camera');
+  else if (!hasMic) addMsg('sys','📷 Video only — no mic');
 
-  if (!hasCamera && !hasMic) {
-    addMsg('sys', '💬 You\'re in text-only mode (no camera/mic detected)');
-  } else if (!hasCamera) {
-    addMsg('sys', '🎤 Audio only — no camera detected');
-  } else if (!hasMic) {
-    addMsg('sys', '📷 Video only — no mic detected');
-  }
-
-  // Start WebRTC
   await makePeer(data.initiator);
 });
 
-// Handle incoming signaling
 socket.on('signal', async (data) => {
   if (!pc) return;
   try {
     if (data.type === 'offer') {
-      // Received offer — set it and create answer
-      if (pc.signalingState === 'stable' || pc.signalingState === 'have-local-offer') {
-        // Handle glare (both sides created offers)
-        if (pc.signalingState === 'have-local-offer' && !isInitiator) {
-          await pc.setLocalDescription({ type: 'rollback' });
-        }
+      if (pc.signalingState === 'have-local-offer' && !isInitiator) {
+        await pc.setLocalDescription({ type:'rollback' });
       }
       await pc.setRemoteDescription(new RTCSessionDescription(data.sdp));
-      const answer = await pc.createAnswer();
-      await pc.setLocalDescription(answer);
-      socket.emit('signal', { type: 'answer', sdp: pc.localDescription });
+      const ans = await pc.createAnswer();
+      await pc.setLocalDescription(ans);
+      socket.emit('signal', { type:'answer', sdp:pc.localDescription });
     } else if (data.type === 'answer') {
       if (pc.signalingState === 'have-local-offer') {
         await pc.setRemoteDescription(new RTCSessionDescription(data.sdp));
       }
     } else if (data.type === 'candidate') {
       if (pc.remoteDescription) {
-        try {
-          await pc.addIceCandidate(new RTCIceCandidate(data.candidate));
-        } catch (e) { /* ignore late/duplicate candidates */ }
+        try { await pc.addIceCandidate(new RTCIceCandidate(data.candidate)); } catch(e) {}
       }
     }
-  } catch (e) {
-    console.error('Signal error:', e);
-  }
+  } catch(e) { console.error('Signal err:', e); }
 });
 
-// Partner wants ICE restart
 socket.on('iceRestart', async () => {
   if (!pc || !isInitiator) return;
   try {
-    addMsg('sys', '🔄 Reconnecting video...');
-    const offer = await pc.createOffer({ iceRestart: true });
+    const offer = await pc.createOffer({ iceRestart:true });
     await pc.setLocalDescription(offer);
-    socket.emit('signal', { type: 'offer', sdp: pc.localDescription });
-  } catch (e) {
-    console.error('ICE restart err:', e);
-  }
+    socket.emit('signal', { type:'offer', sdp:pc.localDescription });
+  } catch(e) {}
 });
 
-socket.on('chatMessage', d => addMsg('them', d.text, d.from));
+socket.on('chatMessage', d => { if(isMatched) addMsg('them', d.text, d.from); });
 
-// Partner left — auto-find next (ONLY when partner disconnects)
+// PARTNER LEFT — show message + "Find Next" button. NO auto-skip.
 socket.on('partnerDisconnected', () => {
-  closePeer();
-  iceRetryCount = 0;
-  addMsg('warn', '⚡ ' + esc(partnerName) + ' left. Finding next dude...');
-  setTimeout(() => {
-    show('s-search');
-    searchAnim();
-    socket.emit('next');
-  }, 1500);
+  if (!isMatched) return; // Ignore if we already moved on
+  showPartnerLeft();
 });
 
-// Socket disconnect/reconnect
-socket.on('disconnect', () => addMsg('warn', '🔌 Connection lost. Reconnecting...'));
-socket.on('connect', () => {
-  console.log('Socket connected');
-});
+socket.on('disconnect', () => { if(isMatched) addMsg('warn','🔌 Connection lost. Reconnecting...'); });
+socket.on('connect', () => console.log('Socket connected'));
 
-// ============================================================
-// HANDLE PAGE VISIBILITY (mobile tab switching)
-// ============================================================
+// Tab visibility
 document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') {
-    // Coming back to tab — make sure local video is playing
     if (localStream && hasCamera) {
       const lv = document.getElementById('localVid');
       if (lv.srcObject !== localStream) lv.srcObject = localStream;
-      lv.play().catch(() => {});
+      lv.play().catch(()=>{});
     }
-    // Make sure remote is playing
     const rv = document.getElementById('remoteVid');
-    if (rv.srcObject) rv.play().catch(() => {});
+    if (rv.srcObject) rv.play().catch(()=>{});
   }
 });
 </script>
