@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>DudeDude Admin Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#0a0a1a;color:#fff;font-family:'Nunito',sans-serif;padding:0}
+    .login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(160deg,#0a0a1a,#1a1035,#0d0d20)}
+    .login-box{background:#141428;border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:32px 28px;max-width:380px;width:100%;text-align:center}
+    .login-box h1{font-family:'Fredoka',sans-serif;font-size:22px;background:linear-gradient(135deg,#FF6B6B,#A855F7);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .login-box input{width:100%;padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.04);color:#fff;font-size:14px;margin:18px 0 16px;font-family:'Nunito',sans-serif}
+    .login-box input:focus{outline:none;border-color:rgba(168,85,247,.5)}
+    .login-box button{width:100%;padding:13px;border-radius:12px;background:linear-gradient(135deg,#FF6B6B,#A855F7);color:#fff;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:'Fredoka',sans-serif}
+    .login-box .err{color:#EF4444;font-size:12px;margin-top:10px;display:none}
+    .dash{padding:20px;max-width:1200px;margin:0 auto;display:none}
+    .dash-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:10px}
+    .dash-head h1{font-family:'Fredoka',sans-serif;font-size:22px;background:linear-gradient(135deg,#FF6B6B,#A855F7,#4ECDC4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .dash-head .meta{font-size:11px;color:#64748B}
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px}
+    .stat{background:#141428;border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:16px;text-align:center}
+    .stat-n{font-size:30px;font-weight:700;font-family:'Fredoka',sans-serif}
+    .stat-l{font-size:11px;color:#94A3B8;margin-top:3px}
+    .c-grn{color:#34D399}.c-blu{color:#38BDF8}.c-pur{color:#A855F7}.c-yel{color:#FFE66D}.c-pnk{color:#FF6B6B}.c-teal{color:#4ECDC4}
+    .section{background:#141428;border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:18px;margin-bottom:14px}
+    .section h2{font-family:'Fredoka',sans-serif;font-size:15px;color:#A855F7;margin-bottom:12px}
+    .bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+    .bar-label{font-size:12px;color:#94A3B8;min-width:70px;text-align:right}
+    .bar-fill{height:22px;border-radius:6px;background:linear-gradient(135deg,#FF6B6B,#A855F7);min-width:6px;display:flex;align-items:center;padding:0 8px;font-size:11px;font-weight:700;white-space:nowrap}
+    .bar-fill.teal{background:linear-gradient(135deg,#4ECDC4,#38BDF8)}
+    .tbl-wrap{overflow-x:auto}
+    table{width:100%;border-collapse:collapse;font-size:12px}
+    th{text-align:left;padding:8px 10px;color:#94A3B8;font-weight:600;border-bottom:1px solid rgba(255,255,255,.06);font-size:10px;text-transform:uppercase;letter-spacing:.5px}
+    td{padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.02)}
+    .st{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
+    .st-chat{background:rgba(52,211,153,.12);color:#34D399}
+    .st-wait{background:rgba(255,230,109,.12);color:#FFE66D}
+    .st-idle{background:rgba(148,163,184,.12);color:#94A3B8}
+    .empty{text-align:center;padding:24px;color:#475569;font-size:13px}
+  </style>
+</head>
+<body>
+<div id="loginPage" class="login">
+  <div class="login-box">
+    <h1>🔒 Admin Panel</h1>
+    <p style="color:#94A3B8;font-size:13px;margin-top:8px">Enter admin key to access the dashboard</p>
+    <input type="password" id="keyInp" placeholder="Admin Key..." onkeydown="if(event.key==='Enter')doLogin()">
+    <button onclick="doLogin()">Access Dashboard →</button>
+    <p class="err" id="loginErr">Invalid key. Try again.</p>
+  </div>
+</div>
+<div id="dashPage" class="dash">
+  <div class="dash-head">
+    <h1>🦦 DudeDude Admin</h1>
+    <div class="meta">Auto-refresh 3s · Server up since <span id="upSince">-</span> · Last: <span id="lastUpd">-</span></div>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-n c-grn" id="sTotal">0</div><div class="stat-l">Connected</div></div>
+    <div class="stat"><div class="stat-n c-blu" id="sChat">0</div><div class="stat-l">Chatting</div></div>
+    <div class="stat"><div class="stat-n c-pur" id="sPairs">0</div><div class="stat-l">Pairs</div></div>
+    <div class="stat"><div class="stat-n c-yel" id="sWait">0</div><div class="stat-l">Waiting</div></div>
+    <div class="stat"><div class="stat-n c-pnk" id="sIdle">0</div><div class="stat-l">Idle</div></div>
+    <div class="stat"><div class="stat-n c-teal" id="sLifetime">0</div><div class="stat-l">Total Ever</div></div>
+  </div>
+  <div class="section"><h2>🌍 Users by Country</h2><div id="countryBars"></div><div id="countryEmpty" class="empty">No users connected yet</div></div>
+  <div class="section"><h2>🏙️ Users by City</h2><div id="cityBars"></div><div id="cityEmpty" class="empty">No users connected yet</div></div>
+  <div class="section">
+    <h2>👥 All Connected Users (<span id="userCount">0</span>)</h2>
+    <div class="tbl-wrap">
+      <table><thead><tr><th>#</th><th>Name</th><th>IP</th><th>Country</th><th>City</th><th>Status</th><th>Joined</th></tr></thead><tbody id="userTbl"></tbody></table>
+    </div>
+    <div id="userEmpty" class="empty">No users connected</div>
+  </div>
+</div>
+<script>
+let adminKey="";
+const urlKey=new URLSearchParams(location.search).get('key');
+if(urlKey){adminKey=urlKey;tryLogin()}
+function doLogin(){adminKey=document.getElementById('keyInp').value.trim();tryLogin()}
+async function tryLogin(){const ok=await fetchData();if(ok){document.getElementById('loginPage').style.display='none';document.getElementById('dashPage').style.display='block';setInterval(fetchData,3000)}else{document.getElementById('loginErr').style.display='block'}}
+async function fetchData(){try{const r=await fetch('/api/admin/stats?key='+encodeURIComponent(adminKey));if(!r.ok)return false;render(await r.json());return true}catch(e){return false}}
+function render(d){
+  document.getElementById('sTotal').textContent=d.totalConnected;
+  document.getElementById('sChat').textContent=d.activeChatting;
+  document.getElementById('sPairs').textContent=d.activePairs;
+  document.getElementById('sWait').textContent=d.waiting;
+  document.getElementById('sIdle').textContent=d.idle;
+  document.getElementById('sLifetime').textContent=d.totalConnectionsEver||0;
+  document.getElementById('upSince').textContent=d.serverStarted?new Date(d.serverStarted).toLocaleString():'-';
+  document.getElementById('lastUpd').textContent=new Date().toLocaleTimeString();
+  document.getElementById('userCount').textContent=d.users.length;
+  const countries=Object.entries(d.countryBreakdown).sort((a,b)=>b[1]-a[1]);
+  const mxC=countries[0]?.[1]||1;
+  document.getElementById('countryEmpty').style.display=countries.length?'none':'block';
+  document.getElementById('countryBars').innerHTML=countries.map(([c,n])=>`<div class="bar-row"><span class="bar-label">${c}</span><div class="bar-fill" style="width:${Math.max(8,(n/mxC)*100)}%">${n}</div></div>`).join('');
+  const cities=Object.entries(d.cityBreakdown).sort((a,b)=>b[1]-a[1]).slice(0,25);
+  const mxCi=cities[0]?.[1]||1;
+  document.getElementById('cityEmpty').style.display=cities.length?'none':'block';
+  document.getElementById('cityBars').innerHTML=cities.map(([c,n])=>`<div class="bar-row"><span class="bar-label">${c}</span><div class="bar-fill teal" style="width:${Math.max(8,(n/mxCi)*100)}%">${n}</div></div>`).join('');
+  const tb=document.getElementById('userTbl');
+  document.getElementById('userEmpty').style.display=d.users.length?'none':'block';
+  tb.innerHTML=d.users.map((u,i)=>{const sc=u.status==='chatting'?'st-chat':u.status==='waiting'?'st-wait':'st-idle';return`<tr><td style="color:#64748B">${i+1}</td><td><b>${esc(u.name)}</b></td><td style="color:#64748B;font-size:11px">${u.ip||'-'}</td><td>${u.country}</td><td>${u.city}</td><td><span class="st ${sc}">${u.status}</span></td><td style="color:#64748B">${new Date(u.joinedAt).toLocaleTimeString()}</td></tr>`}).join('');
+}
+function esc(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML}
+</script>
+</body>
+</html>
