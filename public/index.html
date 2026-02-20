@@ -6,143 +6,181 @@
   <meta name="theme-color" content="#0a0a1a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>DudeDude.app — Random Video & Text Chat for Guys 🦦</title>
+  <title>DudeDude — Random Video & Text Chat for Guys 🦦</title>
   <meta name="description" content="Meet new guys instantly. Random video and text chat. Free, anonymous, global.">
   <link rel="icon" href="/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
-    body{background:#0a0a1a;color:#fff;font-family:'Nunito',sans-serif;overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
-    button{cursor:pointer;border:none;transition:all .15s;font-family:'Nunito',sans-serif}
+    body{background:#07071a;color:#fff;font-family:'Nunito',sans-serif;overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
+    button{cursor:pointer;border:none;transition:all .2s;font-family:'Nunito',sans-serif}
     button:active{transform:scale(.96)}
     input:focus{outline:none;border-color:rgba(168,85,247,.5)!important}
     ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px}
 
-    .screen{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:16px;background:linear-gradient(160deg,#0a0a1a 0%,#1a1035 50%,#0d0d20 100%)}
-    .card{background:rgba(20,20,40,.9);border:1px solid rgba(255,255,255,.06);border-radius:22px;padding:30px 24px;max-width:380px;width:100%;text-align:center;animation:fadeUp .5s ease;backdrop-filter:blur(20px)}
+    /* Screens */
+    .screen{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:20px;position:relative;overflow:hidden}
+    .screen::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 20%,rgba(168,85,247,.08) 0%,transparent 50%),radial-gradient(circle at 70% 80%,rgba(255,107,107,.06) 0%,transparent 50%);pointer-events:none}
     .hidden{display:none!important}
 
-    .logo{height:130px;object-fit:contain;filter:drop-shadow(0 4px 24px rgba(168,85,247,.3))}
-    .logo-sm{height:90px;object-fit:contain;filter:drop-shadow(0 2px 12px rgba(168,85,247,.2))}
-    .logo-xs{height:34px;object-fit:contain}
-    .logo-spin{height:64px;object-fit:contain;animation:bounce 1s ease infinite;filter:drop-shadow(0 2px 12px rgba(255,107,107,.3))}
-    .gradient-text{background:linear-gradient(135deg,#FF6B6B,#A855F7,#4ECDC4,#FFE66D);background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gradShift 4s ease infinite}
-    .muted{color:#94A3B8}
-    .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#34D399;margin-right:6px;animation:pulse 2s ease infinite;box-shadow:0 0 8px #34D399}
-    .dot-sm{width:6px;height:6px;margin-right:4px}
-    .btn-main{width:100%;padding:14px 20px;border-radius:14px;background:linear-gradient(135deg,#FF6B6B,#A855F7);color:#fff;font-size:16px;font-weight:700;font-family:'Fredoka',sans-serif;box-shadow:0 4px 24px rgba(255,107,107,.3)}
-    .btn-next-big{width:100%;padding:12px;border-radius:12px;background:linear-gradient(135deg,#FF6B6B,#A855F7);color:#fff;font-size:14px;font-weight:700;font-family:'Fredoka',sans-serif;margin-top:6px}
-    .inp{width:100%;padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.04);color:#fff;font-size:15px;font-family:'Nunito',sans-serif}
-    .badge{display:inline-flex;align-items:center;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.15);border-radius:20px;padding:5px 14px;gap:2px}
+    /* Logo */
+    .logo-main{width:min(280px,70vw);height:auto;filter:drop-shadow(0 4px 30px rgba(168,85,247,.4)) drop-shadow(0 0 60px rgba(255,107,107,.15));animation:logoFloat 4s ease-in-out infinite}
+    .logo-lobby{width:min(220px,55vw);height:auto;filter:drop-shadow(0 2px 20px rgba(168,85,247,.3))}
+    .logo-xs{height:30px;width:auto;filter:drop-shadow(0 1px 8px rgba(168,85,247,.3))}
+    .logo-spin{width:50px;height:auto;filter:drop-shadow(0 2px 12px rgba(255,107,107,.3));animation:bounce 1s ease infinite}
+
+    /* Gradient text */
+    .g-text{background:linear-gradient(135deg,#FF6B6B,#C084FC,#60A5FA,#34D399);background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gShift 5s ease infinite}
+    .muted{color:#6B7280}
+    .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#34D399;margin-right:6px;animation:pulse 2s ease infinite;box-shadow:0 0 10px rgba(52,211,153,.5)}
+    .dot-sm{width:6px;height:6px;margin-right:5px}
+
+    /* Cards */
+    .card{background:rgba(15,15,35,.8);border:1px solid rgba(255,255,255,.06);border-radius:24px;padding:32px 24px;max-width:400px;width:100%;text-align:center;animation:fadeUp .6s ease;backdrop-filter:blur(40px);box-shadow:0 8px 40px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.03)}
+
+    /* Buttons */
+    .btn-glow{width:100%;padding:15px 24px;border-radius:16px;background:linear-gradient(135deg,#FF6B6B 0%,#C084FC 50%,#818CF8 100%);color:#fff;font-size:16px;font-weight:700;font-family:'Fredoka',sans-serif;box-shadow:0 4px 25px rgba(192,132,252,.4),0 0 60px rgba(255,107,107,.15);letter-spacing:.3px;position:relative;overflow:hidden}
+    .btn-glow::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent 40%,rgba(255,255,255,.1) 50%,transparent 60%);animation:shimmer 3s infinite}
+    .btn-next-big{width:100%;padding:12px;border-radius:14px;background:linear-gradient(135deg,#FF6B6B,#C084FC);color:#fff;font-size:14px;font-weight:700;font-family:'Fredoka',sans-serif;margin-top:6px;box-shadow:0 4px 15px rgba(192,132,252,.3)}
+    .inp{width:100%;padding:13px 16px;border-radius:14px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03);color:#fff;font-size:15px;font-family:'Nunito',sans-serif;transition:all .2s}
+    .inp::placeholder{color:#4B5563}
+
+    /* Badge */
+    .badge{display:inline-flex;align-items:center;background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.12);border-radius:24px;padding:6px 16px}
     .badge span{color:#34D399;font-weight:600;font-size:13px}
 
-    .chat-wrap{height:100dvh;display:flex;flex-direction:column;background:#0a0a1a}
-    .c-header{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#111125;border-bottom:1px solid rgba(255,255,255,.05);flex-shrink:0}
-    .c-video{position:relative;width:100%;background:#000;flex-shrink:0;aspect-ratio:4/3;max-height:40dvh}
-    .c-self{position:absolute;bottom:8px;right:8px;width:85px;height:115px;border-radius:12px;border:2px solid #A855F7;background:#111125;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.5)}
-    .c-modebar{display:flex;gap:4px;padding:6px 12px;background:#111125;flex-shrink:0}
-    .c-modebtn{flex:1;padding:8px 0;border-radius:10px;background:transparent;color:#94A3B8;font-size:12px;font-weight:600;border:1px solid transparent}
-    .c-modebtn.on{background:rgba(168,85,247,.1);color:#fff;border-color:rgba(255,255,255,.06)}
-    .c-msgs{flex:1;overflow-y:auto;padding:10px 12px;display:flex;flex-direction:column;gap:6px}
-    .c-inputbar{display:flex;gap:6px;padding:10px 12px;background:#111125;border-top:1px solid rgba(255,255,255,.05);flex-shrink:0}
-    .c-sendbtn{padding:10px 18px;border-radius:12px;background:linear-gradient(135deg,#FF6B6B,#A855F7);color:#fff;font-size:13px;font-weight:700;font-family:'Fredoka',sans-serif}
-    .msg-sys{text-align:center;font-size:12px;color:#94A3B8;padding:6px 12px;background:rgba(255,255,255,.02);border-radius:12px}
-    .msg-warn{color:#FFE66D!important;background:rgba(255,230,109,.05)!important}
-    .msg-bub{max-width:78%;padding:8px 14px;border-radius:16px;font-size:13px;line-height:1.5;animation:fadeUp .25s ease}
-    .msg-you{align-self:flex-end;background:linear-gradient(135deg,#FF6B6B,#A855F7);border-bottom-right-radius:4px}
-    .msg-them{align-self:flex-start;background:rgba(255,255,255,.06);border-bottom-left-radius:4px}
-    .msg-from{font-size:10px;font-weight:700;opacity:.55;margin-bottom:1px}
-    .retry-btn{display:inline-block;padding:6px 16px;border-radius:8px;background:rgba(168,85,247,.2);color:#A855F7;font-size:12px;font-weight:700;cursor:pointer;border:none}
-    .cam-status{position:absolute;top:8px;left:8px;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;background:rgba(0,0,0,.7)}
-    .cam-ok{color:#34D399}.cam-fail{color:#EF4444}.cam-wait{color:#FFE66D}
+    /* Camera Preview */
+    .cam-preview{width:100%;border-radius:16px;overflow:hidden;background:#111;aspect-ratio:16/9;position:relative;border:1px solid rgba(255,255,255,.06);box-shadow:0 4px 20px rgba(0,0,0,.3)}
+    .cam-preview video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
+    .cam-preview .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:linear-gradient(135deg,#0f0f23,#1a1035)}
+    .cam-label{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);padding:4px 12px;border-radius:8px;background:rgba(0,0,0,.6);backdrop-filter:blur(10px);font-size:11px;color:#94A3B8;font-weight:600}
 
-    @keyframes gradShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    /* Features */
+    .features{display:flex;justify-content:center;gap:28px;margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.04)}
+    .feature{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11px;color:#6B7280;font-weight:600}
+    .feature-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.04)}
+
+    /* Chat */
+    .chat-wrap{height:100dvh;display:flex;flex-direction:column;background:#07071a}
+    .c-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(15,15,35,.9);border-bottom:1px solid rgba(255,255,255,.04);flex-shrink:0;backdrop-filter:blur(20px)}
+    .c-video{position:relative;width:100%;background:#000;flex-shrink:0;aspect-ratio:4/3;max-height:42dvh}
+    .c-self{position:absolute;bottom:10px;right:10px;width:90px;height:120px;border-radius:14px;border:2px solid rgba(192,132,252,.5);background:#111;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+    .c-modebar{display:flex;gap:4px;padding:8px 14px;background:rgba(15,15,35,.9);flex-shrink:0}
+    .c-modebtn{flex:1;padding:9px 0;border-radius:12px;background:transparent;color:#6B7280;font-size:12px;font-weight:700;border:1px solid transparent;transition:all .2s}
+    .c-modebtn.on{background:rgba(192,132,252,.08);color:#C084FC;border-color:rgba(192,132,252,.15)}
+    .c-msgs{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+    .c-inputbar{display:flex;gap:8px;padding:10px 14px;background:rgba(15,15,35,.9);border-top:1px solid rgba(255,255,255,.04);flex-shrink:0}
+    .c-sendbtn{padding:12px 20px;border-radius:14px;background:linear-gradient(135deg,#FF6B6B,#C084FC);color:#fff;font-size:13px;font-weight:700;font-family:'Fredoka',sans-serif;box-shadow:0 2px 12px rgba(192,132,252,.3)}
+
+    .msg-sys{text-align:center;font-size:12px;color:#6B7280;padding:6px 14px;background:rgba(255,255,255,.02);border-radius:14px}
+    .msg-warn{color:#FBBF24!important;background:rgba(251,191,36,.04)!important}
+    .msg-bub{max-width:78%;padding:10px 14px;border-radius:18px;font-size:13px;line-height:1.5;animation:fadeUp .25s ease}
+    .msg-you{align-self:flex-end;background:linear-gradient(135deg,#FF6B6B,#C084FC);border-bottom-right-radius:4px;box-shadow:0 2px 10px rgba(192,132,252,.2)}
+    .msg-them{align-self:flex-start;background:rgba(255,255,255,.05);border-bottom-left-radius:4px}
+    .msg-from{font-size:10px;font-weight:700;opacity:.5;margin-bottom:2px}
+    .retry-btn{display:inline-block;padding:7px 18px;border-radius:10px;background:rgba(192,132,252,.15);color:#C084FC;font-size:12px;font-weight:700;cursor:pointer;border:none}
+    .conn-badge{position:absolute;top:10px;left:10px;padding:4px 10px;border-radius:8px;font-size:10px;font-weight:700;background:rgba(0,0,0,.7);backdrop-filter:blur(10px)}
+    .cb-ok{color:#34D399}.cb-wait{color:#FBBF24}.cb-fail{color:#EF4444}
+
+    /* Warning box */
+    .warn-box{display:flex;align-items:flex-start;gap:10px;background:rgba(251,191,36,.04);border:1px solid rgba(251,191,36,.1);border-radius:14px;padding:12px 14px;text-align:left}
+    .warn-box p{margin:0;font-size:12px;color:#FBBF24;line-height:1.5}
+
+    @keyframes gShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
     @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
     @keyframes spin{to{transform:rotate(360deg)}}
-    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    @keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
   </style>
 </head>
 <body>
 
-<!-- AGE GATE -->
+<!-- ====== AGE GATE ====== -->
 <div id="s-age" class="screen">
-  <div class="card">
-    <img src="/logo.png" class="logo" alt="DudeDude">
-    <p class="muted" style="font-size:14px;margin:14px 0 22px;line-height:1.6">Random video & text chat for guys.<br>Meet someone new instantly. 🦦</p>
-    <div style="display:flex;align-items:center;gap:10px;background:rgba(255,230,109,.07);border:1px solid rgba(255,230,109,.15);border-radius:14px;padding:11px 14px;margin-bottom:22px;text-align:left">
-      <span style="font-size:18px">⚠️</span>
-      <p style="margin:0;font-size:12px;color:#FFE66D">You must be <b>18 or older</b> to enter. By continuing you agree to our Terms of Service.</p>
+  <div class="card" style="padding:40px 24px">
+    <img src="/logo.png" class="logo-main" alt="DudeDude">
+    <p style="color:#9CA3AF;font-size:15px;margin:20px 0 24px;line-height:1.6">Meet new guys instantly.<br><span class="g-text" style="font-weight:700">Random video & text chat.</span></p>
+    <div class="warn-box" style="margin-bottom:24px">
+      <span style="font-size:18px;flex-shrink:0">⚠️</span>
+      <p>You must be <b>18 or older</b> to enter. By continuing you agree to our Terms of Service.</p>
     </div>
-    <button class="btn-main" onclick="enterApp()">I'm 18+ — Let me in 🔥</button>
-    <p class="muted" style="font-size:11px;margin-top:14px">By clicking you confirm you are 18 years or older</p>
+    <button class="btn-glow" onclick="enterApp()">I'm 18+ — Enter 🔥</button>
+    <p style="color:#4B5563;font-size:11px;margin-top:14px">By clicking you confirm you are 18+</p>
   </div>
 </div>
 
-<!-- LOBBY -->
+<!-- ====== LOBBY ====== -->
 <div id="s-lobby" class="screen hidden">
-  <div class="card">
-    <img src="/logo.png" class="logo-sm" alt="DudeDude">
-    <div class="badge" style="margin-top:12px"><span class="dot dot-sm"></span><span id="lobby-count">0 dudes online</span></div>
-    <div id="camPreview" style="margin-top:16px;border-radius:14px;overflow:hidden;background:#000;aspect-ratio:4/3;max-height:180px;position:relative">
-      <video id="previewVid" autoplay playsinline muted style="width:100%;height:100%;object-fit:cover;transform:scaleX(-1)"></video>
-      <div id="previewPH" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#111125">
-        <span style="font-size:28px">📷</span>
-        <p class="muted" style="font-size:11px;margin-top:4px" id="camStatusText">Requesting camera...</p>
+  <div class="card" style="padding:28px 22px">
+    <img src="/logo.png" class="logo-lobby" alt="DudeDude">
+    <div style="margin-top:14px"><div class="badge"><span class="dot dot-sm"></span><span id="lobby-count">0 dudes online</span></div></div>
+
+    <!-- Camera Preview — proper 16:9, centered, rounded -->
+    <div class="cam-preview" style="margin-top:18px">
+      <video id="previewVid" autoplay playsinline muted></video>
+      <div class="ph" id="previewPH">
+        <span style="font-size:32px">📷</span>
+        <p style="color:#6B7280;font-size:12px;margin-top:6px" id="camStatusText">Requesting camera...</p>
       </div>
+      <div class="cam-label" id="camLabel">Setting up camera...</div>
     </div>
-    <div style="width:100%;margin-top:16px;text-align:left">
-      <label style="display:block;color:#94A3B8;font-size:12px;margin-bottom:6px;font-weight:600">NICKNAME <span style="opacity:.5">(optional)</span></label>
+
+    <div style="width:100%;margin-top:18px;text-align:left">
+      <label style="display:block;color:#6B7280;font-size:11px;margin-bottom:6px;font-weight:700;text-transform:uppercase;letter-spacing:.5px">Nickname <span style="opacity:.5">(optional)</span></label>
       <input type="text" id="inp-name" class="inp" placeholder="Enter a name or stay anonymous..." maxlength="20">
     </div>
-    <button class="btn-main" style="margin-top:18px" onclick="startSearch()">Start Matching 🚀</button>
-    <div style="display:flex;justify-content:center;gap:24px;margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.05)">
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:#94A3B8"><span style="font-size:18px">🎭</span>Anonymous</div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:#94A3B8"><span style="font-size:18px">⚡</span>Instant</div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:#94A3B8"><span style="font-size:18px">🌍</span>Global</div>
+
+    <button class="btn-glow" style="margin-top:20px" onclick="startSearch()">Start Matching 🚀</button>
+
+    <div class="features">
+      <div class="feature"><div class="feature-icon">🎭</div>Anonymous</div>
+      <div class="feature"><div class="feature-icon">⚡</div>Instant</div>
+      <div class="feature"><div class="feature-icon">🌍</div>Global</div>
     </div>
   </div>
 </div>
 
-<!-- SEARCHING -->
+<!-- ====== SEARCHING ====== -->
 <div id="s-search" class="screen hidden">
   <div style="text-align:center">
-    <div style="width:96px;height:96px;border-radius:50%;border:3px solid transparent;border-top-color:#FF6B6B;border-right-color:#A855F7;animation:spin 1s linear infinite;margin:0 auto 22px;display:flex;align-items:center;justify-content:center">
+    <div style="width:90px;height:90px;border-radius:50%;border:3px solid transparent;border-top-color:#FF6B6B;border-right-color:#C084FC;animation:spin 1s linear infinite;margin:0 auto 24px;display:flex;align-items:center;justify-content:center">
       <img src="/logo.png" class="logo-spin" alt="">
     </div>
-    <h2 style="font-size:18px;font-family:'Fredoka',sans-serif"><span class="gradient-text" id="search-text">Looking for a dude...</span></h2>
+    <h2 style="font-size:18px;font-family:'Fredoka',sans-serif"><span class="g-text" id="search-text">Looking for a dude...</span></h2>
     <p class="muted" style="font-size:13px;margin-top:8px">Hang tight ✨</p>
-    <button style="margin-top:20px;padding:8px 20px;border-radius:10px;background:rgba(239,68,68,.1);color:#EF4444;font-size:12px;font-weight:600" onclick="doStop()">✕ Cancel</button>
+    <button style="margin-top:24px;padding:9px 24px;border-radius:12px;background:rgba(239,68,68,.08);color:#EF4444;font-size:12px;font-weight:700;border:1px solid rgba(239,68,68,.1)" onclick="doStop()">✕ Cancel</button>
   </div>
 </div>
 
-<!-- CHAT -->
+<!-- ====== CHAT ====== -->
 <div id="s-chat" class="chat-wrap hidden">
   <div class="c-header">
     <div style="display:flex;align-items:center;gap:8px">
       <img src="/logo.png" class="logo-xs" alt="">
       <div>
-        <span style="font-size:14px;font-weight:700;font-family:'Fredoka',sans-serif" class="gradient-text">dudedude</span>
-        <div style="display:flex;align-items:center;margin-top:1px"><span class="dot dot-sm"></span><span style="font-size:10px;color:#94A3B8" id="chat-online">0</span></div>
+        <span style="font-size:13px;font-weight:700;font-family:'Fredoka',sans-serif" class="g-text">DudeDude</span>
+        <div style="display:flex;align-items:center;margin-top:1px"><span class="dot dot-sm" style="width:5px;height:5px"></span><span style="font-size:10px;color:#6B7280" id="chat-online">0</span></div>
       </div>
     </div>
     <div style="display:flex;gap:6px">
-      <button style="padding:7px 14px;border-radius:10px;background:rgba(239,68,68,.1);color:#EF4444;font-size:12px;font-weight:600" onclick="doStop()">✕ Stop</button>
-      <button style="padding:7px 16px;border-radius:10px;background:linear-gradient(135deg,#FF6B6B,#A855F7);color:#fff;font-size:12px;font-weight:700;font-family:'Fredoka',sans-serif" onclick="doNext()">Next ⏭️</button>
+      <button style="padding:7px 14px;border-radius:10px;background:rgba(239,68,68,.06);color:#EF4444;font-size:12px;font-weight:700;border:1px solid rgba(239,68,68,.08)" onclick="doStop()">✕ Stop</button>
+      <button style="padding:7px 18px;border-radius:10px;background:linear-gradient(135deg,#FF6B6B,#C084FC);color:#fff;font-size:12px;font-weight:700;font-family:'Fredoka',sans-serif;box-shadow:0 2px 10px rgba(192,132,252,.25)" onclick="doNext()">Next ⏭️</button>
     </div>
   </div>
   <div class="c-video" id="videoArea">
     <video id="remoteVid" autoplay playsinline style="width:100%;height:100%;object-fit:cover;background:#000"></video>
-    <div id="remotePH" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#000">
+    <div id="remotePH" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:linear-gradient(135deg,#0a0a1a,#1a1035)">
       <span style="font-size:48px">🎭</span>
-      <p class="muted" style="font-size:12px;margin-top:8px" id="remoteLbl">Connecting video...</p>
+      <p style="color:#6B7280;font-size:12px;margin-top:8px" id="remoteLbl">Connecting video...</p>
     </div>
-    <span class="cam-status cam-wait" id="connStatus">⏳ Connecting...</span>
-    <div style="position:absolute;bottom:8px;left:8px;display:flex;align-items:center;background:rgba(0,0,0,.7);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700"><span class="dot dot-sm"></span><span id="partnerLbl">Partner</span></div>
+    <span class="conn-badge cb-wait" id="connStatus">⏳ Connecting...</span>
+    <div style="position:absolute;bottom:10px;left:10px;display:flex;align-items:center;background:rgba(0,0,0,.6);backdrop-filter:blur(10px);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700"><span class="dot dot-sm"></span><span id="partnerLbl">Partner</span></div>
     <div class="c-self">
       <video id="localVid" autoplay playsinline muted style="width:100%;height:100%;object-fit:cover;transform:scaleX(-1)"></video>
-      <div id="selfPH" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#111125"><span style="font-size:24px">📷</span><p class="muted" style="font-size:9px;margin-top:2px">You</p></div>
+      <div id="selfPH" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:linear-gradient(135deg,#0f0f23,#1a1035)"><span style="font-size:22px">📷</span><p style="color:#6B7280;font-size:9px;margin-top:2px">You</p></div>
     </div>
   </div>
   <div class="c-modebar">
@@ -154,436 +192,61 @@
     <input type="text" id="chatInp" class="inp" style="flex:1" placeholder="Type a message..." maxlength="500" onkeydown="if(event.key==='Enter')sendMsg()">
     <button class="c-sendbtn" onclick="sendMsg()">Send</button>
   </div>
-  <div style="text-align:center;padding:6px 0 max(8px,env(safe-area-inset-bottom));background:#111125">
-    <button style="background:transparent;border:none;color:#64748B;font-size:11px" onclick="doReport()">🚩 Report</button>
+  <div style="text-align:center;padding:6px 0 max(8px,env(safe-area-inset-bottom));background:rgba(15,15,35,.9)">
+    <button style="background:transparent;border:none;color:#4B5563;font-size:11px" onclick="doReport()">🚩 Report</button>
   </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-// ============================================================
-// STATE
-// ============================================================
-const socket = io({
-  transports: ["websocket", "polling"],
-  reconnection: true,
-  reconnectionAttempts: Infinity,
-  reconnectionDelay: 1000,
-  reconnectionDelayMax: 5000,
-});
+const socket=io({transports:["websocket","polling"],reconnection:true,reconnectionAttempts:Infinity,reconnectionDelay:1000,reconnectionDelayMax:5000});
+let localStream=null,hasCamera=false,hasMic=false,pc=null,remoteStream=null,partnerName="",myName="Anonymous",curMode="video",isInitiator=false,iceRetryCount=0,iceFailTimer=null,isMatched=false;
+const MAX_ICE_RETRIES=4;
+const ICE_CONFIG={iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun:stun1.l.google.com:19302"},{urls:"stun:stun2.l.google.com:19302"},{urls:"stun:stun3.l.google.com:19302"},{urls:"turn:openrelay.metered.ca:80",username:"openrelayproject",credential:"openrelayproject"},{urls:"turn:openrelay.metered.ca:443",username:"openrelayproject",credential:"openrelayproject"},{urls:"turns:openrelay.metered.ca:443?transport=tcp",username:"openrelayproject",credential:"openrelayproject"},{urls:"turn:standard.relay.metered.ca:80",username:"e8dd65b92f003a9b7f1cb174",credential:"3zOJqoYb2gXIi/Ak"},{urls:"turn:standard.relay.metered.ca:443",username:"e8dd65b92f003a9b7f1cb174",credential:"3zOJqoYb2gXIi/Ak"},{urls:"turns:standard.relay.metered.ca:443?transport=tcp",username:"e8dd65b92f003a9b7f1cb174",credential:"3zOJqoYb2gXIi/Ak"}],iceCandidatePoolSize:10,iceTransportPolicy:"all",bundlePolicy:"max-bundle",rtcpMuxPolicy:"require"};
 
-let localStream = null;
-let hasCamera = false;
-let hasMic = false;
-let pc = null;
-let remoteStream = null;
-let partnerName = "";
-let myName = "Anonymous";
-let curMode = "video";
-let isInitiator = false;
-let iceRetryCount = 0;
-let iceFailTimer = null;
-let isMatched = false;  // Track if we're currently in a match
-const MAX_ICE_RETRIES = 4;
+function show(id){['s-age','s-lobby','s-search','s-chat'].forEach(s=>document.getElementById(s).classList.add('hidden'));document.getElementById(id).classList.remove('hidden')}
+async function enterApp(){show('s-lobby');await acquireMedia()}
+function startSearch(){myName=document.getElementById('inp-name').value.trim()||"Anonymous";isMatched=false;show('s-search');searchAnim();socket.emit('startSearch',{name:myName})}
+function doNext(){closePeer();isMatched=false;iceRetryCount=0;show('s-search');searchAnim();socket.emit('next')}
+function doStop(){closePeer();isMatched=false;iceRetryCount=0;socket.emit('stop');show('s-lobby');showLocalPreview()}
+function showPartnerLeft(){closePeer();isMatched=false;addMsg('warn','⚡ '+esc(partnerName)+' left the chat.');const b=document.getElementById('msgs'),el=document.createElement('div');el.className='msg-sys';el.innerHTML='<button class="btn-next-big" onclick="doNext()">Find Next Dude ⏭️</button>';b.appendChild(el);b.scrollTop=b.scrollHeight;document.getElementById('chatInp').disabled=true;document.getElementById('chatInp').placeholder='Partner left...'}
+function setMode(m){curMode=m;document.getElementById('modeVid').classList.toggle('on',m==='video');document.getElementById('modeTxt').classList.toggle('on',m==='text');document.getElementById('videoArea').style.display=m==='video'?'':'none'}
 
-const ICE_CONFIG = {
-  iceServers: [
-    { urls: "stun:stun.l.google.com:19302" },
-    { urls: "stun:stun1.l.google.com:19302" },
-    { urls: "stun:stun2.l.google.com:19302" },
-    { urls: "stun:stun3.l.google.com:19302" },
-    { urls: "turn:openrelay.metered.ca:80", username: "openrelayproject", credential: "openrelayproject" },
-    { urls: "turn:openrelay.metered.ca:443", username: "openrelayproject", credential: "openrelayproject" },
-    { urls: "turns:openrelay.metered.ca:443?transport=tcp", username: "openrelayproject", credential: "openrelayproject" },
-    { urls: "turn:standard.relay.metered.ca:80", username: "e8dd65b92f003a9b7f1cb174", credential: "3zOJqoYb2gXIi/Ak" },
-    { urls: "turn:standard.relay.metered.ca:443", username: "e8dd65b92f003a9b7f1cb174", credential: "3zOJqoYb2gXIi/Ak" },
-    { urls: "turns:standard.relay.metered.ca:443?transport=tcp", username: "e8dd65b92f003a9b7f1cb174", credential: "3zOJqoYb2gXIi/Ak" },
-  ],
-  iceCandidatePoolSize: 10,
-  iceTransportPolicy: "all",
-  bundlePolicy: "max-bundle",
-  rtcpMuxPolicy: "require",
-};
-
-// ============================================================
-// SCREENS
-// ============================================================
-function show(id) {
-  ['s-age','s-lobby','s-search','s-chat'].forEach(s => document.getElementById(s).classList.add('hidden'));
-  document.getElementById(id).classList.remove('hidden');
+async function acquireMedia(){
+  if(localStream&&localStream.active){showLocalPreview();return}
+  const st=document.getElementById('camStatusText'),lb=document.getElementById('camLabel');
+  st.textContent='Requesting camera & mic...';lb.textContent='Setting up...';
+  try{localStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user",width:{ideal:640,max:1280},height:{ideal:480,max:720},frameRate:{ideal:24,max:30}},audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true,sampleRate:44100}});hasCamera=true;hasMic=true;st.textContent='✅ Camera & mic ready';lb.textContent='✅ Ready';showLocalPreview();return}catch(e){}
+  try{localStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user",width:{ideal:640},height:{ideal:480}},audio:false});hasCamera=true;hasMic=false;st.textContent='📷 Camera ready (no mic)';lb.textContent='📷 No mic';showLocalPreview();return}catch(e){}
+  try{localStream=await navigator.mediaDevices.getUserMedia({video:false,audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}});hasCamera=false;hasMic=true;st.textContent='🎤 Mic only';lb.textContent='🎤 Mic only';return}catch(e){}
+  hasCamera=false;hasMic=false;localStream=null;st.textContent='💬 Text only mode';lb.textContent='💬 Text only'
 }
+function showLocalPreview(){if(localStream&&hasCamera){document.getElementById('previewVid').srcObject=localStream;document.getElementById('previewPH').style.display='none';document.getElementById('localVid').srcObject=localStream;document.getElementById('selfPH').style.display='none'}}
 
-async function enterApp() {
-  show('s-lobby');
-  await acquireMedia();
-}
-
-function startSearch() {
-  myName = document.getElementById('inp-name').value.trim() || "Anonymous";
-  isMatched = false;
-  show('s-search');
-  searchAnim();
-  socket.emit('startSearch', { name: myName });
-}
-
-function doNext() {
-  closePeer();
-  isMatched = false;
-  iceRetryCount = 0;
-  show('s-search');
-  searchAnim();
-  socket.emit('next');
-}
-
-function doStop() {
-  closePeer();
-  isMatched = false;
-  iceRetryCount = 0;
-  socket.emit('stop');
-  show('s-lobby');
-  showLocalPreview();
-}
-
-// Called when partner leaves — user can click "Find Next" or "Stop"
-function showPartnerLeft() {
-  closePeer();
-  isMatched = false;
-  addMsg('warn', '⚡ ' + esc(partnerName) + ' left the chat.');
-
-  // Show "Find Next Dude" button IN the chat
-  const box = document.getElementById('msgs');
-  const el = document.createElement('div');
-  el.className = 'msg-sys';
-  el.innerHTML = '<button class="btn-next-big" onclick="doNext()">Find Next Dude ⏭️</button>';
-  box.appendChild(el);
-  box.scrollTop = box.scrollHeight;
-
-  // Disable input
-  document.getElementById('chatInp').disabled = true;
-  document.getElementById('chatInp').placeholder = 'Partner left...';
-}
-
-function setMode(m) {
-  curMode = m;
-  document.getElementById('modeVid').classList.toggle('on', m === 'video');
-  document.getElementById('modeTxt').classList.toggle('on', m === 'text');
-  document.getElementById('videoArea').style.display = m === 'video' ? '' : 'none';
-}
-
-// ============================================================
-// CAMERA + MIC — ACQUIRE ONCE
-// ============================================================
-async function acquireMedia() {
-  if (localStream && localStream.active) { showLocalPreview(); return; }
-  const st = document.getElementById('camStatusText');
-  st.textContent = 'Requesting camera & mic...';
-
-  // Try video + audio
-  try {
-    localStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode:"user", width:{ideal:640,max:1280}, height:{ideal:480,max:720}, frameRate:{ideal:24,max:30} },
-      audio: { echoCancellation:true, noiseSuppression:true, autoGainControl:true, sampleRate:44100 },
-    });
-    hasCamera = true; hasMic = true;
-    st.textContent = '✅ Camera & mic ready';
-    showLocalPreview(); return;
-  } catch(e) { console.log('Full media fail:', e.name); }
-
-  // Video only
-  try {
-    localStream = await navigator.mediaDevices.getUserMedia({ video:{facingMode:"user",width:{ideal:640},height:{ideal:480}}, audio:false });
-    hasCamera = true; hasMic = false;
-    st.textContent = '📷 Camera ready (no mic)';
-    showLocalPreview(); return;
-  } catch(e) { console.log('Video fail:', e.name); }
-
-  // Audio only
-  try {
-    localStream = await navigator.mediaDevices.getUserMedia({ video:false, audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true} });
-    hasCamera = false; hasMic = true;
-    st.textContent = '🎤 Mic ready (no camera)';
-    return;
-  } catch(e) { console.log('Audio fail:', e.name); }
-
-  // Nothing
-  hasCamera = false; hasMic = false; localStream = null;
-  st.textContent = '💬 Text only mode';
-}
-
-function showLocalPreview() {
-  if (localStream && hasCamera) {
-    document.getElementById('previewVid').srcObject = localStream;
-    document.getElementById('previewPH').style.display = 'none';
-    document.getElementById('localVid').srcObject = localStream;
-    document.getElementById('selfPH').style.display = 'none';
-  }
-}
-
-// ============================================================
-// SEARCH ANIMATION
-// ============================================================
 let searchTmr;
-function searchAnim() {
-  const t = ["Looking for a dude","Scanning the globe","Finding your match","Almost there"];
-  let i=0,d=0;
-  clearInterval(searchTmr);
-  searchTmr = setInterval(() => { d=(d+1)%4; if(!d) i=(i+1)%t.length; document.getElementById('search-text').textContent=t[i]+".".repeat(d); }, 400);
-}
+function searchAnim(){const t=["Looking for a dude","Scanning the globe","Finding your match","Almost there"];let i=0,d=0;clearInterval(searchTmr);searchTmr=setInterval(()=>{d=(d+1)%4;if(!d)i=(i+1)%t.length;document.getElementById('search-text').textContent=t[i]+".".repeat(d)},400)}
 
-// ============================================================
-// MESSAGES
-// ============================================================
-function addMsg(type, html, name) {
-  const box = document.getElementById('msgs');
-  const el = document.createElement('div');
-  if (type==='sys') { el.className='msg-sys'; el.innerHTML=html; }
-  else if (type==='warn') { el.className='msg-sys msg-warn'; el.innerHTML=html; }
-  else {
-    el.className = 'msg-bub '+(type==='you'?'msg-you':'msg-them');
-    el.innerHTML = '<div class="msg-from">'+(type==='you'?'You':esc(name))+'</div>'+esc(html);
-  }
-  box.appendChild(el); box.scrollTop = box.scrollHeight;
-}
-function clearMsgs() { document.getElementById('msgs').innerHTML=''; }
-function esc(t) { const d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
+function addMsg(type,html,name){const b=document.getElementById('msgs'),el=document.createElement('div');if(type==='sys'){el.className='msg-sys';el.innerHTML=html}else if(type==='warn'){el.className='msg-sys msg-warn';el.innerHTML=html}else{el.className='msg-bub '+(type==='you'?'msg-you':'msg-them');el.innerHTML='<div class="msg-from">'+(type==='you'?'You':esc(name))+'</div>'+esc(html)}b.appendChild(el);b.scrollTop=b.scrollHeight}
+function clearMsgs(){document.getElementById('msgs').innerHTML=''}
+function esc(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML}
+function sendMsg(){const inp=document.getElementById('chatInp'),txt=inp.value.trim();if(!txt||!isMatched)return;addMsg('you',txt);socket.emit('chatMessage',{text:txt});inp.value='';inp.focus()}
+function doReport(){socket.emit('report',{reason:'user_report'});alert('User reported. Thanks! 🦦')}
 
-function sendMsg() {
-  const inp = document.getElementById('chatInp');
-  const txt = inp.value.trim();
-  if (!txt || !isMatched) return;
-  addMsg('you', txt);
-  socket.emit('chatMessage', { text:txt });
-  inp.value = ''; inp.focus();
-}
+function setCS(t,c){const el=document.getElementById('connStatus');el.textContent=t;el.className='conn-badge '+c}
+async function makePeer(init){closePeer();isInitiator=init;iceRetryCount=0;clearTimeout(iceFailTimer);setCS('⏳ Connecting...','cb-wait');pc=new RTCPeerConnection(ICE_CONFIG);if(localStream){localStream.getTracks().forEach(t=>pc.addTrack(t,localStream))}else{pc.addTransceiver('video',{direction:'recvonly'});pc.addTransceiver('audio',{direction:'recvonly'})}remoteStream=new MediaStream();document.getElementById('remoteVid').srcObject=remoteStream;pc.ontrack=(e)=>{remoteStream.addTrack(e.track);if(e.track.kind==='video'){document.getElementById('remotePH').style.display='none';setCS('🟢 Connected','cb-ok')}e.track.onunmute=()=>{if(e.track.kind==='video')document.getElementById('remotePH').style.display='none';forcePlay(document.getElementById('remoteVid'))}};pc.onicecandidate=(e)=>{if(e.candidate)socket.emit('signal',{type:'candidate',candidate:e.candidate})};pc.oniceconnectionstatechange=()=>{if(!pc)return;const s=pc.iceConnectionState;switch(s){case'checking':setCS('⏳ Connecting...','cb-wait');break;case'connected':case'completed':setCS('🟢 Connected','cb-ok');iceRetryCount=0;clearTimeout(iceFailTimer);forcePlay(document.getElementById('remoteVid'));break;case'disconnected':setCS('⚡ Reconnecting...','cb-wait');clearTimeout(iceFailTimer);iceFailTimer=setTimeout(()=>{if(pc&&pc.iceConnectionState==='disconnected')handleIceF()},6000);break;case'failed':clearTimeout(iceFailTimer);handleIceF();break}};if(init){try{const o=await pc.createOffer({offerToReceiveAudio:true,offerToReceiveVideo:true});await pc.setLocalDescription(o);socket.emit('signal',{type:'offer',sdp:pc.localDescription})}catch(e){addMsg('warn','⚠️ Could not start video. Text chat works!')}}}
+function forcePlay(v){if(!v)return;const p=v.play();if(p)p.catch(()=>{document.getElementById('videoArea').addEventListener('click',function h(){v.play();document.getElementById('videoArea').removeEventListener('click',h)},{once:true})})}
+async function handleIceF(){if(!pc||!isMatched)return;if(iceRetryCount<MAX_ICE_RETRIES){iceRetryCount++;setCS('🔄 Retry '+iceRetryCount+'/'+MAX_ICE_RETRIES,'cb-wait');addMsg('warn','⚡ Video hiccup. Retrying ('+iceRetryCount+'/'+MAX_ICE_RETRIES+')...');try{if(isInitiator){const o=await pc.createOffer({iceRestart:true});await pc.setLocalDescription(o);socket.emit('signal',{type:'offer',sdp:pc.localDescription})}else{socket.emit('iceRestart')}}catch(e){}}else{setCS('❌ Video failed','cb-fail');addMsg('warn','⚠️ Video couldn\'t connect. Text chat still works! 💬');const b=document.getElementById('msgs'),el=document.createElement('div');el.className='msg-sys';el.innerHTML='<button class="retry-btn" onclick="retryV()">🔄 Try Video Again</button>';b.appendChild(el);b.scrollTop=b.scrollHeight}}
+async function retryV(){if(!pc)return;iceRetryCount=0;setCS('🔄 Retrying...','cb-wait');addMsg('sys','🔄 Retrying video...');try{if(isInitiator){const o=await pc.createOffer({iceRestart:true});await pc.setLocalDescription(o);socket.emit('signal',{type:'offer',sdp:pc.localDescription})}else{socket.emit('iceRestart')}}catch(e){addMsg('warn','⚠️ Retry failed.');setCS('❌ Failed','cb-fail')}}
+function closePeer(){clearTimeout(iceFailTimer);if(pc){pc.close();pc=null}remoteStream=null;document.getElementById('remoteVid').srcObject=null;document.getElementById('remotePH').style.display='flex';document.getElementById('remoteLbl').textContent='Connecting video...';setCS('','')}
 
-function doReport() {
-  socket.emit('report', { reason:'user_report' });
-  alert('User reported. Thanks! 🦦');
-}
-
-// ============================================================
-// WEBRTC
-// ============================================================
-function setConnStatus(text, cls) {
-  const el = document.getElementById('connStatus');
-  el.textContent = text; el.className = 'cam-status ' + cls;
-}
-
-async function makePeer(initiator) {
-  closePeer();
-  isInitiator = initiator;
-  iceRetryCount = 0;
-  clearTimeout(iceFailTimer);
-  setConnStatus('⏳ Connecting...', 'cam-wait');
-
-  pc = new RTCPeerConnection(ICE_CONFIG);
-
-  // Add local tracks
-  if (localStream) {
-    localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
-  } else {
-    pc.addTransceiver('video', { direction:'recvonly' });
-    pc.addTransceiver('audio', { direction:'recvonly' });
-  }
-
-  // Remote stream
-  remoteStream = new MediaStream();
-  document.getElementById('remoteVid').srcObject = remoteStream;
-
-  pc.ontrack = (event) => {
-    console.log('[TRACK]', event.track.kind, event.track.readyState);
-    remoteStream.addTrack(event.track);
-    if (event.track.kind === 'video') {
-      document.getElementById('remotePH').style.display = 'none';
-      setConnStatus('🟢 Connected', 'cam-ok');
-    }
-    event.track.onunmute = () => {
-      if (event.track.kind === 'video') document.getElementById('remotePH').style.display = 'none';
-      forcePlay(document.getElementById('remoteVid'));
-    };
-  };
-
-  pc.onicecandidate = (e) => {
-    if (e.candidate) socket.emit('signal', { type:'candidate', candidate:e.candidate });
-  };
-
-  pc.oniceconnectionstatechange = () => {
-    if (!pc) return;
-    const s = pc.iceConnectionState;
-    console.log('[ICE]', s);
-    switch(s) {
-      case 'checking': setConnStatus('⏳ Connecting...','cam-wait'); break;
-      case 'connected': case 'completed':
-        setConnStatus('🟢 Connected','cam-ok');
-        iceRetryCount = 0; clearTimeout(iceFailTimer);
-        forcePlay(document.getElementById('remoteVid'));
-        break;
-      case 'disconnected':
-        setConnStatus('⚡ Reconnecting...','cam-wait');
-        clearTimeout(iceFailTimer);
-        iceFailTimer = setTimeout(() => { if(pc && pc.iceConnectionState==='disconnected') handleIceFailure(); }, 6000);
-        break;
-      case 'failed': clearTimeout(iceFailTimer); handleIceFailure(); break;
-    }
-  };
-
-  if (initiator) {
-    try {
-      const offer = await pc.createOffer({ offerToReceiveAudio:true, offerToReceiveVideo:true });
-      await pc.setLocalDescription(offer);
-      socket.emit('signal', { type:'offer', sdp:pc.localDescription });
-    } catch(e) {
-      console.error('Offer error:', e);
-      addMsg('warn', '⚠️ Could not start video. Text chat works!');
-    }
-  }
-}
-
-function forcePlay(v) {
-  if (!v) return;
-  const p = v.play();
-  if (p) p.catch(() => {
-    document.getElementById('videoArea').addEventListener('click', function h() {
-      v.play(); document.getElementById('videoArea').removeEventListener('click', h);
-    }, { once:true });
-  });
-}
-
-async function handleIceFailure() {
-  if (!pc || !isMatched) return;
-  if (iceRetryCount < MAX_ICE_RETRIES) {
-    iceRetryCount++;
-    setConnStatus(`🔄 Retry ${iceRetryCount}/${MAX_ICE_RETRIES}`,'cam-wait');
-    addMsg('warn', `⚡ Video hiccup. Retrying (${iceRetryCount}/${MAX_ICE_RETRIES})...`);
-    try {
-      if (isInitiator) {
-        const offer = await pc.createOffer({ iceRestart:true });
-        await pc.setLocalDescription(offer);
-        socket.emit('signal', { type:'offer', sdp:pc.localDescription });
-      } else { socket.emit('iceRestart'); }
-    } catch(e) { console.error('ICE restart err:', e); }
-  } else {
-    setConnStatus('❌ Video failed','cam-fail');
-    addMsg('warn', '⚠️ Video couldn\'t connect. Text chat still works! 💬');
-    const box = document.getElementById('msgs');
-    const el = document.createElement('div'); el.className='msg-sys';
-    el.innerHTML = '<button class="retry-btn" onclick="retryVideo()">🔄 Try Video Again</button>';
-    box.appendChild(el); box.scrollTop = box.scrollHeight;
-  }
-}
-
-async function retryVideo() {
-  if (!pc) return;
-  iceRetryCount = 0;
-  setConnStatus('🔄 Retrying...','cam-wait');
-  addMsg('sys','🔄 Retrying video...');
-  try {
-    if (isInitiator) {
-      const offer = await pc.createOffer({ iceRestart:true });
-      await pc.setLocalDescription(offer);
-      socket.emit('signal', { type:'offer', sdp:pc.localDescription });
-    } else { socket.emit('iceRestart'); }
-  } catch(e) { addMsg('warn','⚠️ Retry failed. Text chat works!'); setConnStatus('❌ Video failed','cam-fail'); }
-}
-
-function closePeer() {
-  clearTimeout(iceFailTimer);
-  if (pc) { pc.close(); pc = null; }
-  remoteStream = null;
-  document.getElementById('remoteVid').srcObject = null;
-  document.getElementById('remotePH').style.display = 'flex';
-  document.getElementById('remoteLbl').textContent = 'Connecting video...';
-  setConnStatus('','');
-}
-
-// ============================================================
-// SOCKET EVENTS
-// ============================================================
-socket.on('onlineCount', n => {
-  document.getElementById('lobby-count').textContent = n + ' dudes online';
-  document.getElementById('chat-online').textContent = n + ' online';
-});
-
-socket.on('matched', async (data) => {
-  clearInterval(searchTmr);
-  partnerName = data.partnerName;
-  isMatched = true;
-  iceRetryCount = 0;
-
-  show('s-chat'); setMode('video'); clearMsgs();
-  document.getElementById('partnerLbl').textContent = partnerName;
-  document.getElementById('remoteLbl').textContent = 'Connecting video...';
-  document.getElementById('chatInp').disabled = false;
-  document.getElementById('chatInp').placeholder = 'Type a message...';
-
-  if (localStream && hasCamera) {
-    document.getElementById('localVid').srcObject = localStream;
-    document.getElementById('selfPH').style.display = 'none';
-  }
-
-  addMsg('sys', '🎉 Connected with <b>'+esc(partnerName)+'</b>! Say hi 👋');
-  if (!hasCamera && !hasMic) addMsg('sys','💬 Text-only mode');
-  else if (!hasCamera) addMsg('sys','🎤 Audio only — no camera');
-  else if (!hasMic) addMsg('sys','📷 Video only — no mic');
-
-  await makePeer(data.initiator);
-});
-
-socket.on('signal', async (data) => {
-  if (!pc) return;
-  try {
-    if (data.type === 'offer') {
-      if (pc.signalingState === 'have-local-offer' && !isInitiator) {
-        await pc.setLocalDescription({ type:'rollback' });
-      }
-      await pc.setRemoteDescription(new RTCSessionDescription(data.sdp));
-      const ans = await pc.createAnswer();
-      await pc.setLocalDescription(ans);
-      socket.emit('signal', { type:'answer', sdp:pc.localDescription });
-    } else if (data.type === 'answer') {
-      if (pc.signalingState === 'have-local-offer') {
-        await pc.setRemoteDescription(new RTCSessionDescription(data.sdp));
-      }
-    } else if (data.type === 'candidate') {
-      if (pc.remoteDescription) {
-        try { await pc.addIceCandidate(new RTCIceCandidate(data.candidate)); } catch(e) {}
-      }
-    }
-  } catch(e) { console.error('Signal err:', e); }
-});
-
-socket.on('iceRestart', async () => {
-  if (!pc || !isInitiator) return;
-  try {
-    const offer = await pc.createOffer({ iceRestart:true });
-    await pc.setLocalDescription(offer);
-    socket.emit('signal', { type:'offer', sdp:pc.localDescription });
-  } catch(e) {}
-});
-
-socket.on('chatMessage', d => { if(isMatched) addMsg('them', d.text, d.from); });
-
-// PARTNER LEFT — show message + "Find Next" button. NO auto-skip.
-socket.on('partnerDisconnected', () => {
-  if (!isMatched) return; // Ignore if we already moved on
-  showPartnerLeft();
-});
-
-socket.on('disconnect', () => { if(isMatched) addMsg('warn','🔌 Connection lost. Reconnecting...'); });
-socket.on('connect', () => console.log('Socket connected'));
-
-// Tab visibility
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible') {
-    if (localStream && hasCamera) {
-      const lv = document.getElementById('localVid');
-      if (lv.srcObject !== localStream) lv.srcObject = localStream;
-      lv.play().catch(()=>{});
-    }
-    const rv = document.getElementById('remoteVid');
-    if (rv.srcObject) rv.play().catch(()=>{});
-  }
-});
+socket.on('onlineCount',n=>{document.getElementById('lobby-count').textContent=n+' dudes online';document.getElementById('chat-online').textContent=n+' online'});
+socket.on('matched',async(d)=>{clearInterval(searchTmr);partnerName=d.partnerName;isMatched=true;iceRetryCount=0;show('s-chat');setMode('video');clearMsgs();document.getElementById('partnerLbl').textContent=partnerName;document.getElementById('remoteLbl').textContent='Connecting video...';document.getElementById('chatInp').disabled=false;document.getElementById('chatInp').placeholder='Type a message...';if(localStream&&hasCamera){document.getElementById('localVid').srcObject=localStream;document.getElementById('selfPH').style.display='none'}addMsg('sys','🎉 Connected with <b>'+esc(partnerName)+'</b>! Say hi 👋');if(!hasCamera&&!hasMic)addMsg('sys','💬 Text-only mode');else if(!hasCamera)addMsg('sys','🎤 Audio only');else if(!hasMic)addMsg('sys','📷 Video only — no mic');await makePeer(d.initiator)});
+socket.on('signal',async(d)=>{if(!pc)return;try{if(d.type==='offer'){if(pc.signalingState==='have-local-offer'&&!isInitiator)await pc.setLocalDescription({type:'rollback'});await pc.setRemoteDescription(new RTCSessionDescription(d.sdp));const a=await pc.createAnswer();await pc.setLocalDescription(a);socket.emit('signal',{type:'answer',sdp:pc.localDescription})}else if(d.type==='answer'){if(pc.signalingState==='have-local-offer')await pc.setRemoteDescription(new RTCSessionDescription(d.sdp))}else if(d.type==='candidate'){if(pc.remoteDescription)try{await pc.addIceCandidate(new RTCIceCandidate(d.candidate))}catch(e){}}}catch(e){console.error('Signal err:',e)}});
+socket.on('iceRestart',async()=>{if(!pc||!isInitiator)return;try{const o=await pc.createOffer({iceRestart:true});await pc.setLocalDescription(o);socket.emit('signal',{type:'offer',sdp:pc.localDescription})}catch(e){}});
+socket.on('chatMessage',d=>{if(isMatched)addMsg('them',d.text,d.from)});
+socket.on('partnerDisconnected',()=>{if(!isMatched)return;showPartnerLeft()});
+socket.on('disconnect',()=>{if(isMatched)addMsg('warn','🔌 Connection lost. Reconnecting...')});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){if(localStream&&hasCamera){const l=document.getElementById('localVid');if(l.srcObject!==localStream)l.srcObject=localStream;l.play().catch(()=>{})}const r=document.getElementById('remoteVid');if(r.srcObject)r.play().catch(()=>{})}});
 </script>
 </body>
 </html>
