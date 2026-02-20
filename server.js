@@ -24,6 +24,7 @@ const stats = { totalConnections: 0, totalMatches: 0, startedAt: new Date().toIS
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/admin", express.static(path.join(__dirname, "admin")));
 
+// Admin API
 app.get("/api/admin/stats", (req, res) => {
   if (req.query.key !== ADMIN_KEY) return res.status(401).json({ error: "Unauthorized" });
   const all = Array.from(users.values());
@@ -42,18 +43,18 @@ app.get("/api/admin/stats", (req, res) => {
     totalMatchesEver: stats.totalMatches,
     serverStarted: stats.startedAt,
     countryBreakdown: countryMap, cityBreakdown: cityMap,
-    users: all.map(u => ({ id:u.id, name:u.name, country:u.geo?.country||"Unknown", city:u.geo?.city||"Unknown", region:u.geo?.region||"", status:u.status, joinedAt:u.joinedAt, ip:u.geo?.ip||"unknown" })),
+    users: all.map(u => ({ id: u.id, name: u.name, country: u.geo?.country || "Unknown", city: u.geo?.city || "Unknown", region: u.geo?.region || "", status: u.status, joinedAt: u.joinedAt, ip: u.geo?.ip || "unknown" })),
   });
 });
 
-app.get("/api/health", (req, res) => res.json({ status:"ok", uptime:process.uptime(), users:users.size }));
+app.get("/api/health", (req, res) => res.json({ status: "ok", uptime: process.uptime(), users: users.size }));
 
 function getGeo(socket) {
   let ip = socket.handshake.headers["x-forwarded-for"] || socket.handshake.headers["x-real-ip"] || socket.handshake.address;
   ip = (ip || "").split(",")[0].trim().replace("::ffff:", "");
   if (ip === "::1" || ip === "127.0.0.1") ip = "";
   const geo = ip ? geoip.lookup(ip) : null;
-  return { ip: ip||"localhost", country:geo?.country||"Unknown", region:geo?.region||"", city:geo?.city||"Unknown", ll:geo?.ll||[0,0] };
+  return { ip: ip || "localhost", country: geo?.country || "Unknown", region: geo?.region || "", city: geo?.city || "Unknown", ll: geo?.ll || [0, 0] };
 }
 
 function findMatch(socketId) {
@@ -68,8 +69,9 @@ function findMatch(socketId) {
       u.status = "chatting"; u.partnerId = pid;
       p.status = "chatting"; p.partnerId = socketId;
       stats.totalMatches++;
-      io.to(socketId).emit("matched", { partnerId:pid, partnerName:p.name, initiator:true });
-      io.to(pid).emit("matched", { partnerId:socketId, partnerName:u.name, initiator:false });
+      // Both get matched — initiator creates offer
+      io.to(socketId).emit("matched", { partnerId: pid, partnerName: p.name, initiator: true });
+      io.to(pid).emit("matched", { partnerId: socketId, partnerName: u.name, initiator: false });
       console.log(`[MATCH] ${u.name}(${u.geo.city}) <-> ${p.name}(${p.geo.city})`);
       broadcastOnline();
       return;
@@ -93,7 +95,7 @@ io.on("connection", (socket) => {
   const geo = getGeo(socket);
   const uid = uuidv4().slice(0, 8);
   stats.totalConnections++;
-  users.set(socket.id, { id:uid, name:"Anonymous", geo, status:"idle", partnerId:null, joinedAt:new Date().toISOString() });
+  users.set(socket.id, { id: uid, name: "Anonymous", geo, status: "idle", partnerId: null, joinedAt: new Date().toISOString() });
   console.log(`[+] ${uid} from ${geo.city},${geo.country} (${users.size})`);
   socket.emit("onlineCount", users.size);
   broadcastOnline();
@@ -106,12 +108,17 @@ io.on("connection", (socket) => {
     findMatch(socket.id);
   });
 
+  // Relay all signaling to partner
   socket.on("signal", (d) => { const u = users.get(socket.id); if (u?.partnerId) io.to(u.partnerId).emit("signal", d); });
   socket.on("iceRestart", () => { const u = users.get(socket.id); if (u?.partnerId) io.to(u.partnerId).emit("iceRestart"); });
-  socket.on("chatMessage", (m) => { const u = users.get(socket.id); if (u?.partnerId && m?.text) io.to(u.partnerId).emit("chatMessage", { text:String(m.text).slice(0,500), from:u.name }); });
+
+  // Chat
+  socket.on("chatMessage", (m) => { const u = users.get(socket.id); if (u?.partnerId && m?.text) io.to(u.partnerId).emit("chatMessage", { text: String(m.text).slice(0, 500), from: u.name }); });
+
   socket.on("next", () => { disconnectFromPartner(socket.id); findMatch(socket.id); });
-  socket.on("stop", () => { disconnectFromPartner(socket.id); const u = users.get(socket.id); if (u) { u.status="idle"; u.partnerId=null; } broadcastOnline(); });
-  socket.on("report", (d) => console.log(`[REPORT] ${users.get(socket.id)?.name}: ${d?.reason||"?"}`));
+  socket.on("stop", () => { disconnectFromPartner(socket.id); const u = users.get(socket.id); if (u) { u.status = "idle"; u.partnerId = null; } broadcastOnline(); });
+  socket.on("report", (d) => console.log(`[REPORT] ${users.get(socket.id)?.name}: ${d?.reason || "?"}`));
+
   socket.on("disconnect", () => {
     disconnectFromPartner(socket.id);
     const i = waitingQueue.indexOf(socket.id);
@@ -121,4 +128,4 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(PORT, "0.0.0.0", () => console.log(`\n  🦦 DudeDude.app on port ${PORT}\n  Admin: /admin?key=${ADMIN_KEY.slice(0,8)}...\n`));
+server.listen(PORT, "0.0.0.0", () => console.log(`\n  🦦 DudeDude.app on port ${PORT}\n  Admin: /admin?key=${ADMIN_KEY.slice(0, 8)}...\n`));
